@@ -11,13 +11,14 @@ app = Flask(__name__)
 
 @app.route("/<url>")
 def return_article_details(url):
-    storyline = find_storyline(url)
-    related_stories = find_related_stories(storyline)
-    story_topics = find_topics(storyline)
+    article_details = find_details_from_uri(url)
+    storyline = article_details['storyline_id']
+    related_stories = find_stories_from_storyline(storyline)
+    story_topics = find_topics_from_storyline(storyline)
 
     response = {
-      "topics": [],
-      "related": []
+      "topics": story_topics,
+      "related": related_stories
     }
 
     return jsonify(**response)
