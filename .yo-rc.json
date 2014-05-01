@@ -1,0 +1,7 @@
+{
+  "generator-reveal": {
+    "presentationTitle": "KnowItAll",
+    "packageVersion": "0.0.1",
+    "useSass": false
+  }
+}
