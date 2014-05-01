@@ -9,7 +9,7 @@ import requests
 ####### Helper methods ########
 
 def download_storyline(storyline):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=http://www.bbc.co.uk/things/" + storyline + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=" + storyline + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 	#print(uri)
 	res = requests.get(uri)
 	s = json.loads(res.content.decode('utf-8'))
@@ -26,6 +26,23 @@ def download_stories_from_topic(topic):
 
 ####### Actual methods ########
 
+def find_details_from_uri(uri):
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	res = requests.get(uri)
+	s = json.loads(res.content.decode('utf-8'))
+	details = s['@graph'][0]
+	subject = details['subject']
+	title = details['title']
+	desc = details['description']
+	date = details['dateCreated']
+	storyline_id = ''
+	for detail in details['tag']['@set']:
+
+		if detail['@type']=='Storyline':
+			storyline_id=detail['@id']
+
+	details = {'title':title, 'subject': subject, 'desc':desc, 'date':date,'storyline_id':storyline_id}
+	return(details)
 
 def find_topics_from_storyline(storyline):
 	s = download_storyline(storyline)
@@ -111,18 +128,18 @@ def get_percentage_of_storyline(storyline,pieces_read):
 
 	return len(pieces_read)/find_number_of_stories_from_storyline('storyline')
 
-}
+
 
 def get_percentage_of_topic(topic,pieces_read):
 
 	return len(pieces_read)/find_number_of_stories_from_topic('topic')
 
-}
+
 
 
 ####### test #######
 
-
+print(find_details_from_uri('http://www.bbc.co.uk/news/uk-scotland-13323587'))
 #print(find_number_of_stories_from_topic("David_Cameron"))
 
 #print(find_number_of_stories_from_storyline("29199865-deee-47ad-9079-7276170003a5"))
