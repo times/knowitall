@@ -1,7 +1,7 @@
 # KnowItAll Basic REST API
 
 #import knowitall_machine
-
+import os
 from flask import Flask
 from flask import jsonify
 
@@ -24,4 +24,7 @@ def return_article_details(url):
     return jsonify(**response)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    if os.getenv('KNOWITALL_ENV', "dev") == "dev":
+      app.run(host="127.0.0.1",  debug = True)
+    else:
+      app.run(host="0.0.0.0",  debug = False)
