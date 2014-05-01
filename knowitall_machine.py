@@ -115,7 +115,7 @@ def get_percentage_of_storyline(storyline,pieces_read):
 
 def get_percentage_of_topic(topic,pieces_read):
 
-	return len(pieces_read)/find_number_of_stories_from_storyline('storyline')
+	return len(pieces_read)/find_number_of_stories_from_topic('topic')
 
 }
 
