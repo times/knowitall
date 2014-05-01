@@ -1,6 +1,3 @@
-
-
-
 print("Hello Folks! Let's get the KnowItAll Machine started")
 
 import json
@@ -28,6 +25,7 @@ def download_stories_from_topic(topic):
 
 def find_details_from_uri(uri):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	print uri
 	res = requests.get(uri)
 	s = json.loads(res.content.decode('utf-8'))
 	details = s['@graph'][0]
@@ -72,7 +70,7 @@ def find_number_of_stories_from_topic(topic):
 
 def find_number_of_stories_from_storyline(storyline):
 	s = download_storyline(storyline)
-	title = s['@graph'][0]['title'] 
+	title = s['@graph'][0]['title']
 	#print(title)
 
 	number_of_stories = 0;
@@ -99,7 +97,7 @@ def find_number_of_stories_from_storyline(storyline):
 
 def find_stories_from_storyline(storyline):
 	s = download_storyline(storyline)
-	title = s['@graph'][0]['title'] 
+	title = s['@graph'][0]['title']
 	print(title)
 
 	mystories = [];
@@ -118,7 +116,7 @@ def find_stories_from_storyline(storyline):
 				story = {'title': sub_piece['title'], 'product':sub_piece['product'], 'uri':sub_piece['@id'], 'date':sub_piece['dateCreated'], 'desc':sub_piece['description'],'parent':piece['preferredLabel'],'parent_type':'chapter'}
 				mystories.append(story);
 				#print(story)
-				
+
 	return mystories
 
 
@@ -139,10 +137,8 @@ def get_percentage_of_topic(topic,pieces_read):
 
 ####### test #######
 
-print(find_details_from_uri('http://www.bbc.co.uk/news/uk-scotland-13323587'))
+#print(find_details_from_uri('http://www.bbc.co.uk/news/uk-scotland-13323587'))
 #print(find_number_of_stories_from_topic("David_Cameron"))
 
 #print(find_number_of_stories_from_storyline("29199865-deee-47ad-9079-7276170003a5"))
 #print(find_topics_from_storyline("29199865-deee-47ad-9079-7276170003a5"))
-
-
