@@ -1,5 +1,5 @@
 
-
+api_key = "c4Eybj69ezJsWwAKZ1I8JxtvyVqqf9EH"
 
 print("Hello Folks! Let's get the KnowItAll Machine started")
 
@@ -10,7 +10,7 @@ import re
 ####### Helper methods ########
 
 def download_storyline(storyline):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=" + storyline + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=" + storyline + "&apikey=" + api_key
 	#print(uri)
 	res = requests.get(uri)
 	if res.status_code == 200:
@@ -25,7 +25,7 @@ def download_storyline(storyline):
 
 
 def download_stories_from_topic(topic):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=10&after=2014-04-01&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=10&after=2014-04-01&apikey=" + api_key
 	res = requests.get(uri)
 	if res.status_code == 200:
 		try:
@@ -40,7 +40,7 @@ def download_stories_from_topic(topic):
 ####### Actual methods ########
 
 def find_details_from_uri(uri):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=" + api_key
 	res = requests.get(uri)
 	if res.status_code == 200:
 		try:
@@ -164,7 +164,7 @@ def get_percentage_of_topic(topic,pieces_read):
 
 def count_words(url):
 	if res.status_code == 200:
-		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=" + api_key
 		res = requests.get(uri)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
@@ -175,7 +175,7 @@ def count_words(url):
 		details = s['@graph'][0]
 		article_id = details['identifier']
 
-		uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=c4Eybj69ezJsWwAKZ1I8JxtvyVqqf9EH"
+		uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=" + api_key
 		res = requests.get(uri)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
