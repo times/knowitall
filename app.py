@@ -1,15 +1,20 @@
 # KnowItAll Basic REST API
 
-#import knowitall_machine
+from knowitall import *
 import os
-from flask import Flask
-from flask import jsonify
+from flask import *
+
 
 app = Flask(__name__)
 
 # Main endpoint, returns article data.
 
-@app.route("/<url>")
+@app.route("/favicon.ico")
+def missing():
+    return '404'
+
+@app.route('/', defaults={'url': ''})
+@app.route('/<path:url>')
 def return_article_details(url):
     article_details = find_details_from_uri(url)
     storyline = article_details['storyline_id']
