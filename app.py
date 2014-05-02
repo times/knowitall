@@ -1,4 +1,6 @@
 # KnowItAll Basic REST API
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 from knowitall import *
 import os
@@ -6,6 +8,15 @@ from flask import *
 from cors import crossdomain
 
 app = Flask(__name__)
+
+cache = []
+
+def in_cache(url):
+  global cache
+  for item in cache:
+    if item["url"] == url:
+      return item
+  return False
 
 # Main endpoint, returns article data.
 
@@ -19,12 +30,27 @@ def missing():
 def return_article_details(url):
     story_topics = False
     related_stories = False
-    article_details = find_details_from_uri(url)
+    if False: #in_cache(url): # Caching disabled for debugging purposes.
+      print "in cache"
+      cached = in_cache(url)
+      article_details = cached["data"]
+    else:
+      print "not in cache"
+      article_details = find_details_from_uri(url)
+      if article_details:
+        global cache
+        cache.append({"url": url, "data": article_details})
+
     if article_details:
       storyline = article_details['storyline_id']
       if storyline:
-        related_stories = find_stories_from_storyline(storyline)
-        story_topics = find_topics_from_storyline(storyline)
+        storyline_blob = download_storyline(storyline)
+        related_stories = find_stories_from_storyline(storyline_blob)
+        story_topics = find_topics_from_storyline(storyline_blob)
+      else:
+        print "No storyline"
+    else:
+      print "No article details"
 
     response = {
       "topics": story_topics,

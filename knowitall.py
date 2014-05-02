@@ -12,40 +12,45 @@ import re
 def download_storyline(storyline):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=" + storyline + "&apikey=" + api_key
 	#print(uri)
-	res = requests.get(uri)
-	if res.status_code == 200:
+	try:
+		res = requests.get(uri, timeout=10)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
+			return(s)
 		except:
+			print "Failure on storyline"
 			return False
-		#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
-		return(s)
-	else:
+			#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
+	except:
+		print "Storyline connection timeout"
 		return False
 
 
 def download_stories_from_topic(topic):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=10&after=2014-04-01&apikey=" + api_key
-	res = requests.get(uri)
-	if res.status_code == 200:
+	try:
+		res = requests.get(uri, timeout=10)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:
+			print "Failure on topics"
 			return False
 		#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
 		return(s)
-	else:
+	except:
+		print "timeout on getting story from topic"
 		return False
 
 ####### Actual methods ########
 
 def find_details_from_uri(uri):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=" + api_key
-	res = requests.get(uri)
-	if res.status_code == 200:
+	try:
+		res = requests.get(uri, timeout=10)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:
+			print "Failure on details"
 			return False
 		details = s['@graph'][0]
 		subject = details['subject']
@@ -60,11 +65,12 @@ def find_details_from_uri(uri):
 
 		details = {'title':title, 'subject': subject, 'desc':desc, 'date':date,'storyline_id':storyline_id}
 		return(details)
-	else:
+	except:
+		print "timeout on finding details"
 		return False
 
-def find_topics_from_storyline(storyline):
-	s = download_storyline(storyline)
+def find_topics_from_storyline(storyline_blob):
+	s = storyline_blob
 	if s != False:
 		topics = s['@graph'][0]['topic']
 		#print topics
@@ -124,36 +130,39 @@ def find_number_of_stories_from_storyline(storyline):
 
 	return number_of_stories
 
-def find_stories_from_storyline(storyline):
-	s = download_storyline(storyline)
-	title = s['@graph'][0]['title']
-	print(title)
+def find_stories_from_storyline(storyline_blob):
+	s = storyline_blob
+	if s:
+		title = s['@graph'][0]['title']
+		print(title)
 
-	mystories = [];
-	all_pieces = s['@graph']
+		mystories = [];
+		all_pieces = s['@graph']
 
-	children_pieces = s['@graph'][0]['taggedOn'];
-	for child_piece in children_pieces['@set']:
-		story = {'title': child_piece['title'], 'product':child_piece['product'], 'uri':child_piece['@id'], 'date':child_piece['dateCreated'], 'desc':child_piece['description'],'parent':storyline,'parent_type':'storyline'}
-		mystories.append(story);
+		children_pieces = s['@graph'][0]['taggedOn'];
+		for child_piece in children_pieces['@set']:
+			story = {'title': child_piece['title'], 'product':child_piece['product'], 'uri':child_piece['@id'], 'date':child_piece['dateCreated'], 'desc':child_piece['description'],'parent':storyline,'parent_type':'storyline'}
+			mystories.append(story);
 
-	for piece in all_pieces:
+		for piece in all_pieces:
 
-		if piece['@type']=='Event':
-			sub_pieces = piece['taggedOn'];
-			for sub_piece in sub_pieces['@set']:
-				story = {'title': sub_piece['title'], 'product':sub_piece['product'], 'uri':sub_piece['@id'], 'date':sub_piece['dateCreated'], 'desc':sub_piece['description'],'parent':piece['preferredLabel'],'parent_type':'chapter'}
-				mystories.append(story);
-				#print(story)
+			if piece['@type']=='Event':
+				sub_pieces = piece['taggedOn'];
+				for sub_piece in sub_pieces['@set']:
+					story = {'title': sub_piece['title'], 'product':sub_piece['product'], 'uri':sub_piece['@id'], 'date':sub_piece['dateCreated'], 'desc':sub_piece['description'],'parent':piece['preferredLabel'],'parent_type':'chapter'}
+					mystories.append(story);
+					#print(story)
 
-	return mystories
+		return mystories
+	else:
+		return False
 
 
 ###### percentage functions ######
 
-def get_percentage_of_storyline(storyline,pieces_read):
+def get_percentage_of_storyline(storyline_blob,pieces_read):
 
-	return len(pieces_read)/find_number_of_stories_from_storyline('storyline')
+	return len(pieces_read)/find_number_of_stories_from_storyline(storyline_blob)
 
 
 
@@ -163,9 +172,9 @@ def get_percentage_of_topic(topic,pieces_read):
 
 
 def count_words(url):
-	if res.status_code == 200:
+	try:
 		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=" + api_key
-		res = requests.get(uri)
+		res = requests.get(uri, timeout=10)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:
@@ -176,17 +185,19 @@ def count_words(url):
 		article_id = details['identifier']
 
 		uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=" + api_key
-		res = requests.get(uri)
+		res = requests.get(uri, timeout=10)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:
+			print "failure on word count"
 			return False
 		body = s['article']['body']
 		#splitted = body.split()
 		splitted = re.findall(r"[\w']+", body)
 		#print(splitted)
 		return len(splitted)
-	else:
+	except:
+		print "timeout on wordcount"
 		return False
 
 
