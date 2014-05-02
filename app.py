@@ -17,10 +17,14 @@ def missing():
 @app.route('/<path:url>')
 @crossdomain(origin='*')
 def return_article_details(url):
+    story_topics = False
+    related_stories = False
     article_details = find_details_from_uri(url)
-    storyline = article_details['storyline_id']
-    related_stories = find_stories_from_storyline(storyline)
-    story_topics = find_topics_from_storyline(storyline)
+    if article_details:
+      storyline = article_details['storyline_id']
+      if storyline:
+        related_stories = find_stories_from_storyline(storyline)
+        story_topics = find_topics_from_storyline(storyline)
 
     response = {
       "topics": story_topics,
@@ -33,4 +37,4 @@ if __name__ == "__main__":
     if os.getenv('KNOWITALL_ENV', "dev") == "dev":
       app.run(host="127.0.0.1",  debug = True)
     else:
-      app.run(host="0.0.0.0",  debug = False)
+      app.run(host="0.0.0.0",  debug = True)
