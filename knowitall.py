@@ -14,7 +14,10 @@ def download_storyline(storyline):
 	#print(uri)
 	res = requests.get(uri)
 	if res.status_code == 200:
-		s = json.loads(res.content.decode('utf-8'))
+		try:
+			s = json.loads(res.content.decode('utf-8'))
+		except:
+			return False
 		#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
 		return(s)
 	else:
@@ -25,7 +28,10 @@ def download_stories_from_topic(topic):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=10&after=2014-04-01&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 	res = requests.get(uri)
 	if res.status_code == 200:
-		s = json.loads(res.content.decode('utf-8'))
+		try:
+			s = json.loads(res.content.decode('utf-8'))
+		except:
+			return False
 		#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
 		return(s)
 	else:
@@ -37,7 +43,10 @@ def find_details_from_uri(uri):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 	res = requests.get(uri)
 	if res.status_code == 200:
-		s = json.loads(res.content.decode('utf-8'))
+		try:
+			s = json.loads(res.content.decode('utf-8'))
+		except:
+			return False
 		details = s['@graph'][0]
 		subject = details['subject']
 		title = details['title']
@@ -157,14 +166,21 @@ def count_words(url):
 	if res.status_code == 200:
 		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 		res = requests.get(uri)
-		s = json.loads(res.content.decode('utf-8'))
+		try:
+			s = json.loads(res.content.decode('utf-8'))
+		except:
+			return False
+
 		#print(s)
 		details = s['@graph'][0]
 		article_id = details['identifier']
 
 		uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=c4Eybj69ezJsWwAKZ1I8JxtvyVqqf9EH"
 		res = requests.get(uri)
-		s = json.loads(res.content.decode('utf-8'))
+		try:
+			s = json.loads(res.content.decode('utf-8'))
+		except:
+			return False
 		body = s['article']['body']
 		#splitted = body.split()
 		splitted = re.findall(r"[\w']+", body)
