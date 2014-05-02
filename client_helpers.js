@@ -1,17 +1,66 @@
 
 
 
-
 function get_percentage_read_of_storyline(storyline,pieces_read){
 
-	return pieces_read/find_number_of_stories_from_storyline(storyline);
+	return 100*(pieces_read/find_number_of_stories_from_storyline(storyline));
 
 }
 
 function get_percentage_read_of_topic(topic,pieces_read){
 
-	return pieces_read/find_number_of_stories_from_topic(topic);
+	return 100*(pieces_read/find_number_of_stories_from_topic(topic));
 
+}
+
+
+// Much cooler way of getting percentage read and percentage increase..
+function get_percentage_of_words_read_of_topic(topic,pieces_read){
+
+	words_read = 0;
+
+	for (piece in pieces_read){
+
+		words_read = words_read + count_words(piece);
+
+	}
+
+	all_pieces_in_topic = find_stories_from_topic(topic);
+	total_words = 0
+
+	for (piece in all_pieces_in_topic){
+
+		total_words = total_words + count_words(piece['uri'])
+
+	}
+
+
+	return 100*(words_read/total_words);
+
+}
+
+// Much cooler way of getting percentage read and percentage increase..
+function get_percentage_of_words_read_of_storyline(storyline,pieces_read){
+
+	words_read = 0;
+
+	for (piece in pieces_read){
+
+		words_read = words_read + count_words(piece);
+
+	}
+
+	all_pieces_in_topic = find_stories_from_storyline(storyline);
+	total_words = 0
+
+	for (piece in all_pieces_in_topic){
+
+		total_words = total_words + count_words(piece['uri'])
+
+	}
+
+
+	return 100*(words_read/total_words);
 }
 
 
