@@ -13,67 +13,84 @@ def download_storyline(storyline):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=" + storyline + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 	#print(uri)
 	res = requests.get(uri)
-	s = json.loads(res.content.decode('utf-8'))
-	#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
-	return(s)
+	if res.status_code == 200:
+		s = json.loads(res.content.decode('utf-8'))
+		#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
+		return(s)
+	else:
+		return False
 
 
 def download_stories_from_topic(topic):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=10&after=2014-04-01&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 	res = requests.get(uri)
-	s = json.loads(res.content.decode('utf-8'))
-	#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
-	return(s)
+	if res.status_code == 200:
+		s = json.loads(res.content.decode('utf-8'))
+		#print(json.dumps(s, sort_keys=True,indent=4, separators=(',', ': ')))
+		return(s)
+	else:
+		return False
 
 ####### Actual methods ########
 
 def find_details_from_uri(uri):
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
 	res = requests.get(uri)
-	s = json.loads(res.content.decode('utf-8'))
-	details = s['@graph'][0]
-	subject = details['subject']
-	title = details['title']
-	desc = details['description']
-	date = details['dateCreated']
-	storyline_id = ''
-	for detail in details['tag']['@set']:
+	if res.status_code == 200:
+		s = json.loads(res.content.decode('utf-8'))
+		details = s['@graph'][0]
+		subject = details['subject']
+		title = details['title']
+		desc = details['description']
+		date = details['dateCreated']
+		storyline_id = ''
+		for detail in details['tag']['@set']:
 
-		if detail['@type']=='Storyline':
-			storyline_id=detail['@id']
+			if detail['@type']=='Storyline':
+				storyline_id=detail['@id']
 
-	details = {'title':title, 'subject': subject, 'desc':desc, 'date':date,'storyline_id':storyline_id}
-	return(details)
+		details = {'title':title, 'subject': subject, 'desc':desc, 'date':date,'storyline_id':storyline_id}
+		return(details)
+	else:
+		return False
 
 def find_topics_from_storyline(storyline):
 	s = download_storyline(storyline)
-	topics = s['@graph'][0]['topic']
-	#print topics
-	return topics
+	if s != False:
+		topics = s['@graph'][0]['topic']
+		#print topics
+		return topics
+	else:
+		return False
 
 def find_stories_from_topic(topic):
 	s = download_stories_from_topic(topic)
-	mystories = [];
-	for piece in s:
-		if piece['type']=='http://www.bbc.co.uk/ontologies/creativework/NewsItem':
-			story = {'title': piece['title'], 'product':piece['product'], 'uri':piece['uri'], 'date':piece['date'], 'desc':piece['desc'], 'parent':topic, 'parent_type':'topic'}
-			mystories.append(story);
-	#print(mystories)
-	return mystories
+	if s != False:
+		mystories = [];
+		for piece in s:
+			if piece['type']=='http://www.bbc.co.uk/ontologies/creativework/NewsItem':
+				story = {'title': piece['title'], 'product':piece['product'], 'uri':piece['uri'], 'date':piece['date'], 'desc':piece['desc'], 'parent':topic, 'parent_type':'topic'}
+				mystories.append(story);
+		#print(mystories)
+		return mystories
+	else:
+		return False
 
 def find_number_of_stories_from_topic(topic):
 	s = download_stories_from_topic(topic)
-	number_of_stories = 0;
-	for piece in s:
-		if piece['type']=='http://www.bbc.co.uk/ontologies/creativework/NewsItem':
-			number_of_stories+=1
-	#print(number_of_stories)
-	return number_of_stories
-
+	if s != False:
+		number_of_stories = 0;
+		for piece in s:
+			if piece['type']=='http://www.bbc.co.uk/ontologies/creativework/NewsItem':
+				number_of_stories+=1
+		#print(number_of_stories)
+		return number_of_stories
+	else:
+		return 0
 
 def find_number_of_stories_from_storyline(storyline):
 	s = download_storyline(storyline)
-	title = s['@graph'][0]['title'] 
+	title = s['@graph'][0]['title']
 	#print(title)
 
 	number_of_stories = 0;
@@ -100,7 +117,7 @@ def find_number_of_stories_from_storyline(storyline):
 
 def find_stories_from_storyline(storyline):
 	s = download_storyline(storyline)
-	title = s['@graph'][0]['title'] 
+	title = s['@graph'][0]['title']
 	print(title)
 
 	mystories = [];
@@ -119,7 +136,7 @@ def find_stories_from_storyline(storyline):
 				story = {'title': sub_piece['title'], 'product':sub_piece['product'], 'uri':sub_piece['@id'], 'date':sub_piece['dateCreated'], 'desc':sub_piece['description'],'parent':piece['preferredLabel'],'parent_type':'chapter'}
 				mystories.append(story);
 				#print(story)
-				
+
 	return mystories
 
 
@@ -137,23 +154,26 @@ def get_percentage_of_topic(topic,pieces_read):
 
 
 def count_words(url):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
-	res = requests.get(uri)
-	s = json.loads(res.content.decode('utf-8'))
-	#print(s)
-	details = s['@graph'][0]
-	article_id = details['identifier']
-	
-	uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=c4Eybj69ezJsWwAKZ1I8JxtvyVqqf9EH"
-	res = requests.get(uri)
-	s = json.loads(res.content.decode('utf-8'))
-	body = s['article']['body']
-	#splitted = body.split()
-	splitted = re.findall(r"[\w']+", body)
-	#print(splitted)
-	return len(splitted)
-	
-	
+	if res.status_code == 200:
+		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+		res = requests.get(uri)
+		s = json.loads(res.content.decode('utf-8'))
+		#print(s)
+		details = s['@graph'][0]
+		article_id = details['identifier']
+
+		uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=c4Eybj69ezJsWwAKZ1I8JxtvyVqqf9EH"
+		res = requests.get(uri)
+		s = json.loads(res.content.decode('utf-8'))
+		body = s['article']['body']
+		#splitted = body.split()
+		splitted = re.findall(r"[\w']+", body)
+		#print(splitted)
+		return len(splitted)
+	else:
+		return False
+
+
 ####### test #######
 
 #print(find_details_from_uri('http://www.bbc.co.uk/news/uk-scotland-13323587'))
