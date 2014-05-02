@@ -5,6 +5,7 @@ print("Hello Folks! Let's get the KnowItAll Machine started")
 
 import json
 import requests
+import re
 
 ####### Helper methods ########
 
@@ -135,14 +136,30 @@ def get_percentage_of_topic(topic,pieces_read):
 	return len(pieces_read)/find_number_of_stories_from_topic('topic')
 
 
-
-
+def count_words(url):
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
+	res = requests.get(uri)
+	s = json.loads(res.content.decode('utf-8'))
+	#print(s)
+	details = s['@graph'][0]
+	article_id = details['identifier']
+	
+	uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=c4Eybj69ezJsWwAKZ1I8JxtvyVqqf9EH"
+	res = requests.get(uri)
+	s = json.loads(res.content.decode('utf-8'))
+	body = s['article']['body']
+	#splitted = body.split()
+	splitted = re.findall(r"[\w']+", body)
+	#print(splitted)
+	return len(splitted)
+	
+	
 ####### test #######
 
-print(find_details_from_uri('http://www.bbc.co.uk/news/uk-scotland-13323587'))
+#print(find_details_from_uri('http://www.bbc.co.uk/news/uk-scotland-13323587'))
 #print(find_number_of_stories_from_topic("David_Cameron"))
 
 #print(find_number_of_stories_from_storyline("29199865-deee-47ad-9079-7276170003a5"))
 #print(find_topics_from_storyline("29199865-deee-47ad-9079-7276170003a5"))
 
-
+#print(count_words('http://www.bbc.co.uk/news/uk-scotland-13323587'))
