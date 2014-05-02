@@ -3,7 +3,7 @@
 from knowitall import *
 import os
 from flask import *
-
+from cors import crossdomain
 
 app = Flask(__name__)
 
@@ -15,6 +15,7 @@ def missing():
 
 @app.route('/', defaults={'url': ''})
 @app.route('/<path:url>')
+@crossdomain(origin='*')
 def return_article_details(url):
     article_details = find_details_from_uri(url)
     storyline = article_details['storyline_id']
