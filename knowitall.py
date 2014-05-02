@@ -140,19 +140,6 @@ def find_stories_from_storyline(storyline):
 	return mystories
 
 
-###### percentage functions ######
-
-def get_percentage_of_storyline(storyline,pieces_read):
-
-	return len(pieces_read)/find_number_of_stories_from_storyline('storyline')
-
-
-
-def get_percentage_of_topic(topic,pieces_read):
-
-	return len(pieces_read)/find_number_of_stories_from_topic('topic')
-
-
 def count_words(url):
 	if res.status_code == 200:
 		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=1XkrNHCERmZnDx4G2AdSsL3gtP9hx0hP"
