@@ -6,14 +6,22 @@ print("Hello Folks! Let's get the KnowItAll Machine started")
 import json
 import requests
 import re
-
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 ####### Helper methods ########
 
 def download_storyline(storyline):
+	if storyline == "http://www.bbc.co.uk/things/67cfb3fa-a263-499a-9193-78a1c1b25f29":
+		print "debug"
+		storyline_debug = open("./debug_storyline.json", "r")
+		storyline_debug_content = storyline.read() 
+		return json.loads(storyline_debug_content.decode("utf-8"))
+
+
 	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/storylines/graphs?uri=" + storyline + "&apikey=" + api_key
 	#print(uri)
 	try:
-		res = requests.get(uri, timeout=10)
+		res = requests.get(uri, timeout=1)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 			return(s)
@@ -27,9 +35,9 @@ def download_storyline(storyline):
 
 
 def download_stories_from_topic(topic):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=10&after=2014-04-01&apikey=" + api_key
+	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/things?tag=http://dbpedia.org/resource/" + topic + "&class=http://www.bbc.co.uk/ontologies/creativework/NewsItem&limit=1&after=2014-04-01&apikey=" + api_key
 	try:
-		res = requests.get(uri, timeout=10)
+		res = requests.get(uri, timeout=1)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:
@@ -44,30 +52,43 @@ def download_stories_from_topic(topic):
 ####### Actual methods ########
 
 def find_details_from_uri(uri):
-	uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=" + api_key
-	try:
-		res = requests.get(uri, timeout=10)
+	print uri
+	if uri == "http://www.bbc.co.uk/news/business-16548644":
+		print "debug details"
+		res = open("./debug_article.json")
+		details = res.read()
 		try:
-			s = json.loads(res.content.decode('utf-8'))
+			s = json.loads(details.decode('utf-8'))
 		except:
 			print "Failure on details"
 			return False
-		details = s['@graph'][0]
-		subject = details['subject']
-		title = details['title']
-		desc = details['description']
-		date = details['dateCreated']
-		storyline_id = ''
-		for detail in details['tag']['@set']:
+	else:
+		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + uri + "&apikey=" + api_key
+		try:
+			res = requests.get(uri, timeout=5)
+			try:
+				s = json.loads(res.content.decode('utf-8'))
+			except:
+				print "Failure on details"
+				return False
+		except:
+			print "timeout on finding details"
+			return False
 
-			if detail['@type']=='Storyline':
-				storyline_id=detail['@id']
+	details = s['@graph'][0]
+	subject = details['subject']
+	title = details['title']
+	desc = details['description']
+	date = details['dateCreated']
+	storyline_id = ''
+	for detail in details['tag']['@set']:
 
-		details = {'title':title, 'subject': subject, 'desc':desc, 'date':date,'storyline_id':storyline_id}
-		return(details)
-	except:
-		print "timeout on finding details"
-		return False
+		if detail['@type']=='Storyline':
+			storyline_id=detail['@id']
+
+	details = {'title':title, 'subject': subject, 'desc':desc, 'date':date,'storyline_id':storyline_id}
+	return(details)
+
 
 def find_topics_from_storyline(storyline_blob):
 	s = storyline_blob
@@ -132,6 +153,8 @@ def find_number_of_stories_from_storyline(storyline):
 
 def find_stories_from_storyline(storyline_blob):
 	s = storyline_blob
+	storyline = storyline_blob["@graph"][0]["@id"]
+
 	if s:
 		title = s['@graph'][0]['title']
 		print(title)
@@ -158,23 +181,10 @@ def find_stories_from_storyline(storyline_blob):
 		return False
 
 
-###### percentage functions ######
-
-def get_percentage_of_storyline(storyline_blob,pieces_read):
-
-	return len(pieces_read)/find_number_of_stories_from_storyline(storyline_blob)
-
-
-
-def get_percentage_of_topic(topic,pieces_read):
-
-	return len(pieces_read)/find_number_of_stories_from_topic('topic')
-
-
 def count_words(url):
 	try:
 		uri = "http://data.bbc.co.uk/v1/bbcrd-newslabs/creative-works?uri=" + url + "&apikey=" + api_key
-		res = requests.get(uri, timeout=10)
+		res = requests.get(uri, timeout=1)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:
@@ -185,7 +195,7 @@ def count_words(url):
 		article_id = details['identifier']
 
 		uri = "http://data.bbc.co.uk/bbcrd-juicer/articles/" + article_id + ".json?apikey=" + api_key
-		res = requests.get(uri, timeout=10)
+		res = requests.get(uri, timeout=1)
 		try:
 			s = json.loads(res.content.decode('utf-8'))
 		except:

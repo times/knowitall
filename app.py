@@ -30,7 +30,7 @@ def missing():
 def return_article_details(url):
     story_topics = False
     related_stories = False
-    if False: #in_cache(url): # Caching disabled for debugging purposes.
+    if in_cache(url): 
       print "in cache"
       cached = in_cache(url)
       article_details = cached["data"]

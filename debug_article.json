@@ -1,0 +1,315 @@
+{
+    "@context": {
+        "@language": "en",
+        "NewsItem": "http://www.bbc.co.uk/ontologies/creativework/NewsItem",
+        "Organisation": "http://dbpedia.org/ontology/Organisation",
+        "Person": "http://dbpedia.org/ontology/Person",
+        "Place": "http://dbpedia.org/ontology/Place",
+        "Storyline": "http://purl.org/ontology/storyline/Storyline",
+        "analysisOf": "http://www.bbc.co.uk/ontologies/creativework/analysisOf",
+        "dateCreated": {
+            "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+            "@id": "http://www.bbc.co.uk/ontologies/creativework/dateCreated"
+        },
+        "description": "http://www.bbc.co.uk/ontologies/creativework/description",
+        "identifier": "http://purl.org/dc/terms/identifier",
+        "label": "http://www.w3.org/2000/01/rdf-schema#label",
+        "lat": "http://www.w3.org/2003/01/geo/wgs84_pos#lat",
+        "long": "http://www.w3.org/2003/01/geo/wgs84_pos#long",
+        "mentions": "http://www.bbc.co.uk/ontologies/creativework/mentions",
+        "primaryContentOf": "http://www.bbc.co.uk/ontologies/bbc/primaryContentOf",
+        "primaryFormat": "http://www.bbc.co.uk/ontologies/creativework/primaryFormat",
+        "primaryTopicOf": "http://www.bbc.co.uk/ontologies/coreconcepts/primaryTopicOf",
+        "product": "http://www.bbc.co.uk/ontologies/bbc/product",
+        "subject": "http://purl.org/dc/terms/subject",
+        "tag": "http://www.bbc.co.uk/ontologies/creativework/tag",
+        "thumbnail": "http://dbpedia.org/ontology/thumbnail",
+        "title": "http://www.bbc.co.uk/ontologies/creativework/title"
+    },
+    "@graph": [
+        {
+            "primaryContentOf": "http://www.bbc.co.uk/news/business-16548644",
+            "subject": "Business",
+            "@type": "NewsItem",
+            "tag": {
+                "@set": [
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/BBC.svg/200px-BBC.svg.png",
+                        "@type": "Organisation",
+                        "label": "BBC",
+                        "@id": "http://dbpedia.org/resource/BBC"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Flag_of_the_United_Kingdom.svg/200px-Flag_of_the_United_Kingdom.svg.png",
+                        "@type": "Place",
+                        "label": "United Kingdom",
+                        "@id": "http://dbpedia.org/resource/United_Kingdom",
+                        "long": "-0.11666666666666667",
+                        "lat": "51.5"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/3/34/UK_interest_rates,_May_1997_to_present_.svg/200px-UK_interest_rates,_May_1997_to_present_.svg.png",
+                        "@type": "Organisation",
+                        "label": "Monetary Policy Committee",
+                        "@id": "http://dbpedia.org/resource/Monetary_Policy_Committee"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/83/London_collage.jpg/200px-London_collage.jpg",
+                        "@type": "Place",
+                        "label": "London",
+                        "@id": "http://dbpedia.org/resource/London",
+                        "long": "-0.1275",
+                        "lat": "51.507222222222225"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/200px-Flag_of_Russia.svg.png",
+                        "@type": "Place",
+                        "label": "Russia",
+                        "@id": "http://dbpedia.org/resource/Russia",
+                        "long": "37.61666666666667",
+                        "lat": "55.75"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Ireland_(island)_in_Europe.png/200px-Ireland_(island)_in_Europe.png",
+                        "@type": "Place",
+                        "label": "Ireland",
+                        "@id": "http://dbpedia.org/resource/Ireland",
+                        "long": "-8.0",
+                        "lat": "53.333333333333336"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Flag_of_Wales_2.svg/200px-Flag_of_Wales_2.svg.png",
+                        "@type": "Place",
+                        "label": "Wales",
+                        "@id": "http://dbpedia.org/resource/Wales",
+                        "long": "-3.183333333333333",
+                        "lat": "51.483333333333334"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People's_Republic_of_China.svg/200px-Flag_of_the_People's_Republic_of_China.svg.png",
+                        "@type": "Place",
+                        "label": "China",
+                        "@id": "http://dbpedia.org/resource/China",
+                        "long": "116.38333333333334",
+                        "lat": "39.916666666666664"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/200px-Flag_of_Scotland.svg.png",
+                        "@type": "Place",
+                        "label": "Scotland",
+                        "@id": "http://dbpedia.org/resource/Scotland",
+                        "long": "-3.2",
+                        "lat": "55.95"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/200px-Flag_of_Brazil.svg.png",
+                        "@type": "Place",
+                        "label": "Brazil",
+                        "@id": "http://dbpedia.org/resource/Brazil",
+                        "long": "-47.86666666666667",
+                        "lat": "-15.75"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_India.svg/200px-Flag_of_India.svg.png",
+                        "@type": "Place",
+                        "label": "India",
+                        "@id": "http://dbpedia.org/resource/India",
+                        "long": "77.20833333333333",
+                        "lat": "28.613333333333333"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Flag_of_England.svg/200px-Flag_of_England.svg.png",
+                        "@type": "Place",
+                        "label": "England",
+                        "@id": "http://dbpedia.org/resource/England",
+                        "long": "-0.11666666666666667",
+                        "lat": "51.5"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/EdinburghMontage.png/200px-EdinburghMontage.png",
+                        "@type": "Place",
+                        "label": "Edinburgh",
+                        "@id": "http://dbpedia.org/resource/Edinburgh",
+                        "long": "-3.188888888888889",
+                        "lat": "55.95305555555556"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Northern_Ireland_in_the_UK_and_Europe.svg/200px-Northern_Ireland_in_the_UK_and_Europe.svg.png",
+                        "@type": "Place",
+                        "label": "Northern Ireland",
+                        "@id": "http://dbpedia.org/resource/Northern_Ireland",
+                        "long": "-5.84",
+                        "lat": "54.59093333333333"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Norway.svg/200px-Flag_of_Norway.svg.png",
+                        "@type": "Place",
+                        "label": "Norway",
+                        "@id": "http://dbpedia.org/resource/Norway",
+                        "long": "10.683333333333334",
+                        "lat": "59.93333333333333"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Scottish_National_Party_logo.svg/200px-Scottish_National_Party_logo.svg.png",
+                        "@type": "Organisation",
+                        "label": "Scottish National Party",
+                        "@id": "http://dbpedia.org/resource/Scottish_National_Party"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Alex_Salmond,_First_Minister_of_Scotland.jpg/200px-Alex_Salmond,_First_Minister_of_Scotland.jpg",
+                        "@type": "Person",
+                        "label": "Alex Salmond",
+                        "@id": "http://dbpedia.org/resource/Alex_Salmond"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/New_Glasgow_Crest.png/200px-New_Glasgow_Crest.png",
+                        "@type": "Organisation",
+                        "label": "University of Glasgow",
+                        "@id": "http://dbpedia.org/resource/University_of_Glasgow",
+                        "long": "-4.2875",
+                        "lat": "55.871944444444445"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Frankfurt_collage.jpg/200px-Frankfurt_collage.jpg",
+                        "@type": "Place",
+                        "label": "Frankfurt",
+                        "@id": "http://dbpedia.org/resource/Frankfurt",
+                        "long": "8.685944444444445",
+                        "lat": "50.111805555555556"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Flag_of_Iceland.svg/200px-Flag_of_Iceland.svg.png",
+                        "@type": "Place",
+                        "label": "Iceland",
+                        "@id": "http://dbpedia.org/resource/Iceland",
+                        "long": "-21.933333333333334",
+                        "lat": "64.13333333333334"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/HBOS.svg/200px-HBOS.svg.png",
+                        "@type": "Organisation",
+                        "label": "HBOS",
+                        "@id": "http://dbpedia.org/resource/HBOS"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Stephanie_Flanders.jpg/200px-Stephanie_Flanders.jpg",
+                        "@type": "Person",
+                        "label": "Stephanie Flanders",
+                        "@id": "http://dbpedia.org/resource/Stephanie_Flanders"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Keflavik_aerial_view.jpg/200px-Keflavik_aerial_view.jpg",
+                        "@type": "Place",
+                        "label": "Keflavík",
+                        "@id": "http://dbpedia.org/resource/Keflav%C3%ADk",
+                        "long": "-22.566666666666666",
+                        "lat": "64.01666666666667"
+                    },
+                    {
+                        "thumbnail": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Royal_Bank_of_Scotland_Logo.svg/200px-Royal_Bank_of_Scotland_Logo.svg.png",
+                        "@type": "Organisation",
+                        "label": "The Royal Bank of Scotland",
+                        "@id": "http://dbpedia.org/resource/The_Royal_Bank_of_Scotland"
+                    },
+                    {
+                        "@type": "Storyline",
+                        "label": "Scottish Referendum 2014",
+                        "@id": "http://www.bbc.co.uk/things/29199865-deee-47ad-9079-7276170003a5"
+                    }
+                ]
+            },
+            "primaryFormat": {
+                "@id": "http://www.bbc.co.uk/ontologies/creativework/TextualFormat"
+            },
+            "primaryTopicOf": "http://www.bbc.co.uk/news/business",
+            "product": {
+                "@id": "http://www.bbc.co.uk/ontologies/bbc/NewsWeb"
+            },
+            "title": "What would happen to Scotland's economy after independence?",
+            "thumbnail": "http://news.bbc.co.uk/news/business-16548644/images/57880000/jpg/_57880341_57880278.jpg",
+            "analysisOf": {
+                "@id": "http://www.bbc.co.uk/things/29199865-deee-47ad-9079-7276170003a5"
+            },
+            "description": "Could Scotland afford to go it alone, and would it want to, asks Douglas Fraser, BBC Scotland's business and economy editor.",
+            "dateCreated": "2012-01-15T02:51:31Z",
+            "@id": "http://www.bbc.co.uk/news/business-16548644",
+            "identifier": "16548644",
+            "mentions": {
+                "@set": [
+                    {
+                        "@id": "http://dbpedia.org/resource/BBC"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/United_Kingdom"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Monetary_Policy_Committee"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/London"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Russia"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Ireland"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Wales"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/China"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Scotland"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Brazil"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/India"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/England"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Edinburgh"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Northern_Ireland"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Norway"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Scottish_National_Party"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Alex_Salmond"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/University_of_Glasgow"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Frankfurt"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Iceland"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/HBOS"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Stephanie_Flanders"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/Keflav%C3%ADk"
+                    },
+                    {
+                        "@id": "http://dbpedia.org/resource/The_Royal_Bank_of_Scotland"
+                    }
+                ]
+            }
+        }
+    ]
+}
